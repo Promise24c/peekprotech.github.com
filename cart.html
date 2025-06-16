@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Your Cart</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .cart-container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+
+    .cart-item img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .item-info {
+      flex: 1;
+      padding: 0 15px;
+    }
+
+    .item-controls {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    button {
+      padding: 5px 10px;
+      background: #333;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .summary {
+      text-align: right;
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    .actions {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .empty-message {
+      text-align: center;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Shopping Cart</h1>
+  <div class="cart-container" id="cart-container"></div>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const container = document.getElementById("cart-container");
+
+    function renderCart() {
+      if (cart.length === 0) {
+        container.innerHTML = "<p class='empty-message'>Your cart is empty.</p>";
+        return;
+      }
+
+      let total = 0;
+      let html = "";
+
+      cart.forEach((item, index) => {
+        const price = parseFloat(item.price) * (item.quantity || 1);
+        total += price;
+
+        html += `
+          <div class="cart-item">
+            <img src="${item.image || 'images/default.jpg'}" alt="${item.name}">
+            <div class="item-info">
+              <strong>${item.name}</strong><br>
+              $${item.price} x ${item.quantity || 1}
+            </div>
+            <div class="item-controls">
+              <button onclick="changeQty(${index}, -1)">-</button>
+              <span>${item.quantity || 1}</span>
+              <button onclick="changeQty(${index}, 1)">+</button>
+              <button onclick="removeItem(${index})">Remove</button>
+            </div>
+          </div>
+        `;
+      });
+
+      html += `
+        <div class="summary"><strong>Total: $${total.toFixed(2)}</strong></div>
+        <div class="actions">
+          <button onclick="clearCart()">Clear Cart</button>
+          <button onclick="checkout()">Proceed to Checkout</button>
+        </div>
+      `;
+
+      container.innerHTML = html;
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+    }
+
+    function changeQty(index, delta) {
+      if (!cart[index].quantity) cart[index].quantity = 1;
+      cart[index].quantity += delta;
+      if (cart[index].quantity < 1) cart[index].quantity = 1;
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+    }
+
+    function clearCart() {
+      if (confirm("Are you sure you want to clear the cart?")) {
+        cart = [];
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
+      }
+    }
+
+    function checkout() {
+      alert("Checkout feature coming soon!");
+    }
+
+    renderCart();
+  </script>
+
+</body>
+</html>

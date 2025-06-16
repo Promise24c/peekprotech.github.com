@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Peek ProTech</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    .main {
+      background: #333;
+      color: white;
+      padding: 20px;
+    }
+
+    .logo {
+      font-size: 28px;
+      margin: 0;
+    }
+
+    .menu ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+      gap: 30px;
+      margin: 0;
+    }
+
+    .menu ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .auth-links {
+      text-align: right;
+      margin-bottom: 10px;
+    }
+
+    .auth-links a {
+      color: white;
+      margin-left: 10px;
+      text-decoration: underline;
+    }
+
+    .search {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .srch {
+      padding: 8px;
+      width: 200px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .btn {
+      padding: 8px 12px;
+      background: #000;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .content {
+      text-align: center;
+      padding: 40px 20px;
+      background: #fff;
+    }
+
+    .content h1 {
+      font-size: 36px;
+      color: #222;
+    }
+
+    .content p {
+      font-size: 18px;
+      color: #555;
+      max-width: 600px;
+      margin: auto;
+      margin-top: 10px;
+    }
+
+    .cart-button {
+      display: inline-block;
+      background: #333;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 25px;
+    }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      justify-items: center;
+      background: #fafafa;
+    }
+
+    .image-grid img {
+      width: 100%;
+      max-width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .image-grid a {
+      text-decoration: none;
+    }
+
+    .image-grid img:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="main">
+    <div class="auth-links">
+      <a href="login.html">Login</a>
+      <a href="register.html">Register</a>
+    </div>
+    <h1 class="logo">Peek ProTech</h1>
+    <div class="menu">
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="about.html">ABOUT</a></li>
+        <li><a href="catalog.html">CATALOG</a></li>
+        <li><a href="shop.html">SHOP</a></li>
+        <li><a href="cart.html">CART</a></li>
+        <li><a href="contact.html">CONTACT</a></li>
+      </ul>
+    </div>
+    <div class="search">
+      <input class="srch" type="search" placeholder="Search tech..." id="search-box">
+      <button class="btn" onclick="searchRedirect()">Search</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <h1>Welcome to Peek ProTech</h1>
+    <p>Your cozy corner for all things tech — from gadgets to gear, we’ve got your needs covered.</p>
+    <a href="shop.html" class="cart-button">Start Shopping</a>
+  </div>
+
+  <div class="image-grid">
+    <a href="product.html?id=smartphone"><img src="images/smartphone.jpg.jpg" alt="Smartphone"></a>
+    <a href="product.html?id=laptop"><img src="images/laptop.jpg.jpg" alt="Laptop"></a>
+    <a href="product.html?id=camera"><img src="images/camera.jpg.jpg" alt="Camera"></a>
+    <a href="product.html?id=headphones"><img src="images/headphones.jpg.jpg" alt="Headphones"></a>
+    <a href="product.html?id=gamingconsole"><img src="images/gamingconsole.jpg.jpg" alt="Gaming Console"></a>
+    <a href="product.html?id=smartwatches"><img src="images/smartwatches.jpg.jpg" alt="Smartwatch"></a>
+  </div>
+
+  <footer>
+    &copy; 2025 Peek ProTech. All rights reserved.
+  </footer>
+
+  <script>
+    function searchRedirect() {
+      const query = document.getElementById("search-box").value;
+      if (query.trim() !== "") {
+        window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+      }
+    }
+  </script>
+
+</body>
+</html>

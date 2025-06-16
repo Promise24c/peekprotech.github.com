@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Detail</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Product Details</h1>
+  <div id="product-details">
+    <!-- Will be filled by JavaScript -->
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get("id");
+
+    const products = {
+      1: { name: "Mobile Accessories", description: "Phone cases, chargers, and more", price: "R150" },
+      2: { name: "Tech Gadgets", description: "Smart devices and tools", price: "R500" },
+    };
+
+    const product = products[productId];
+    if (product) {
+      document.getElementById("product-details").innerHTML = `
+        <h2>${product.name}</h2>
+        <p>${product.description}</p>
+        <p><strong>Price:</strong> ${product.price}</p>
+        <button onclick="addToCart(${productId})">Add to Cart</button>
+      `;
+    } else {
+      document.getElementById("product-details").innerHTML = "<p>Product not found.</p>";
+    }
+
+    function addToCart(id) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push(products[id]);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert("Product added to cart!");
+    }
+  </script>
+</body>
+</html>

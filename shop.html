@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Peek ProTech - Shop</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+    }
+
+    header {
+      background: #333;
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .basket {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .basket-count {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      padding: 3px 7px;
+      font-size: 12px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .catalog-item {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .catalog-item img {
+      width: 100%;
+      max-width: 180px;
+      height: 180px;
+      object-fit: cover;
+      margin-bottom: 10px;
+      border-radius: 8px;
+    }
+
+    .catalog-item button {
+      background: #333;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      background: #222;
+      color: white;
+      margin-top: 40px;
+    }
+
+    #cart {
+      position: fixed;
+      top: 80px;
+      right: 0;
+      width: 300px;
+      max-height: 90%;
+      overflow-y: auto;
+      background: white;
+      border-left: 2px solid #ccc;
+      padding: 15px;
+      display: none;
+      box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .cart-total {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .payment {
+      margin-top: 20px;
+    }
+
+    .payment input[type="text"], .payment input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0;
+    }
+
+    .payment input[type="submit"] {
+      background: green;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Peek ProTech - Shop</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="catalog.html">Catalog</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="basket" onclick="toggleCart()">
+      🛒 Basket <span class="basket-count" id="basket-count">0</span>
+    </div>
+  </header>
+
+  <h2>Shop Our Products</h2>
+
+  <div class="catalog-grid">
+    <div class="catalog-item">
+      <img src="images/smartphone.jpg.jpg" alt="Phones">
+      <h3>Shop Phones</h3>
+      <button onclick="addToCart('Phone', 300)">Add to Cart</button>
+    </div>
+
+    <div class="catalog-item">
+      <img src="images/laptop.jpg.jpg" alt="Laptops">
+      <h3>Shop Laptops</h3>
+      <button onclick="addToCart('Laptop', 800)">Add to Cart</button>
+    </div>
+
+    <div class="catalog-item">
+      <img src="images/smartwatches.jpg.jpg" alt="Smartwatches">
+      <h3>Shop Smartwatches</h3>
+      <button onclick="addToCart('Smartwatch', 150)">Add to Cart</button>
+    </div>
+
+    <div class="catalog-item">
+      <img src="images/headphones.jpg.jpg" alt="Watches">
+      <h3>Shop Watches</h3>
+      <button onclick="addToCart('Watch', 120)">Add to Cart</button>
+    </div>
+
+    <div class="catalog-item">
+      <img src="images/laptop.jpg.jpg" alt="Laptops">
+      <h3>Shop Laptops</h3>
+      <button onclick="addToCart('Laptop', 850)">Add to Cart</button>
+    </div>
+  </div>
+
+  <div id="cart">
+    <h3>Your Basket</h3>
+    <div id="cart-items"></div>
+    <div class="cart-total" id="cart-total">Total: R0</div>
+
+    <div class="payment">
+      <h4>Payment Info</h4>
+      <form onsubmit="event.preventDefault(); alert('Payment successful! Thank you for shopping.'); clearCart();">
+        <input type="text" placeholder="Full Name" required>
+        <input type="text" placeholder="Card Number" required>
+        <input type="text" placeholder="Expiry Date (MM/YY)" required>
+        <input type="number" placeholder="CVV" required>
+        <input type="submit" value="Pay Now">
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Peek ProTech. All rights reserved.</p>
+  </footer>
+
+  <script>
+    let cartItems = [];
+    let total = 0;
+
+    function addToCart(item, price) {
+      cartItems.push({ item, price });
+      updateCart();
+    }
+
+    function updateCart() {
+      const cartContainer = document.getElementById('cart-items');
+      const cartTotal = document.getElementById('cart-total');
+      const basketCount = document.getElementById('basket-count');
+
+      cartContainer.innerHTML = '';
+      total = 0;
+
+      cartItems.forEach((entry, index) => {
+        total += entry.price;
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          ${entry.item} - R${entry.price}
+          <button onclick="removeItem(${index})">x</button>
+        `;
+        cartContainer.appendChild(div);
+      });
+
+      cartTotal.innerText = `Total: R${total}`;
+      basketCount.innerText = cartItems.length;
+    }
+
+    function removeItem(index) {
+      cartItems.splice(index, 1);
+      updateCart();
+    }
+
+    function toggleCart() {
+      const cart = document.getElementById('cart');
+      cart.style.display = cart.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function clearCart() {
+      cartItems = [];
+      updateCart();
+      toggleCart();
+    }
+  </script>
+
+</body>
+</html>
